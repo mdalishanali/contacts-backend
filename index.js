@@ -6,13 +6,13 @@ const connectDb = require("./src/configs/db");
 //routes
 const cors = require("cors");
 const contactRoutes = require("./src/routes/contact.routes");
+const messageRoutes = require("./src/routes/message.routes");
 
 app.use(cors());
-
-//connecting to mongod Db
 connectDb();
+
 app.use("/api/contact", contactRoutes);
-// app.use("/api/alert", Authenticate, alertRoutes);
+app.use("/api/message", messageRoutes);
 
 const port = process.env.PORT;
 app.listen(port, () => {
