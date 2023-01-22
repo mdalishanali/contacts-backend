@@ -28,20 +28,18 @@ const createMessage = async (req, res) => {
 
 const getAllMessages = async (req, res) => {
   try {
-    const page = req.query.page;
-    const size = req.query.pageSize;
+    // const page = req.query.page;
+    // const size = req.query.pageSize;
 
     const messages = await Message.find()
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: 1 })
       .populate({ path: "userId", select: "name" })
-      .skip((page - 1) * size)
-      .limit(size)
       .lean()
       .exec();
 
-    const totalPages = Math.ceil((await Message.countDocuments()) / size) || 1;
+    // const totalPages = Math.ceil((await Message.countDocuments()) / size) || 1;
     const counts = await Message.countDocuments();
-    return res.send({ messages, totalPages, counts });
+    return res.send({ messages, counts });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

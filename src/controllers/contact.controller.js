@@ -12,18 +12,14 @@ const createContact = async (req, res) => {
 
 const getAllContact = async (req, res) => {
   try {
-    const page = req.query.page;
-    const size = req.query.pageSize;
+    // const page = req.query.page;
+    // const size = req.query.pageSize;
 
-    const contacts = await Contact.find()
-      .skip((page - 1) * size)
-      .limit(size)
-      .lean()
-      .exec();
+    const contacts = await Contact.find().lean().exec();
 
-    const totalPages = Math.ceil((await Contact.countDocuments()) / size) || 1;
+    // const totalPages = Math.ceil((await Contact.countDocuments()) / size) || 1;
     const counts = await Contact.countDocuments();
-    return res.send({ contacts, totalPages, counts });
+    return res.send({ contacts, counts });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -53,7 +49,9 @@ const findAndUpdate = async (req, res) => {
   try {
     const id = req.params.id;
     const update = req.body;
-    const contactData = await Contact.findByIdAndUpdate(id, update, { new: true });
+    const contactData = await Contact.findByIdAndUpdate(id, update, {
+      new: true,
+    });
     res.send(contactData).status(400);
   } catch (error) {
     res.status(500).send(error.message);

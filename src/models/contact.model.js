@@ -20,7 +20,18 @@ const contactSchema = new mongoose.Schema(
   {
     versionKey: false,
     timestamps: true,
+    toObject: {
+      virtuals: true,
+    },
+    toJSON: {
+      virtuals: true,
+    },
   }
 );
+
+contactSchema.virtual("fullName").get(function () {
+  return `${this.name.first} ${this.name.last}`;
+});
+
 const contact = mongoose.model("contacts", contactSchema);
 module.exports = contact;
