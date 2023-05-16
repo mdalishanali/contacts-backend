@@ -14,6 +14,9 @@ connectDb();
 app.use("/api/contact", contactRoutes);
 app.use("/api/message", messageRoutes);
 
+app.get("/", (req,res)=>{
+  res.send("<h1>Hello world</h1>")
+})
 const port = process.env.PORT;
 app.listen(port, () => {
   console.log(
